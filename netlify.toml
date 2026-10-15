@@ -1,0 +1,9 @@
+# Netlify detecta Next.js y usa su runtime oficial automáticamente.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # simulado | ia  (ver lib/sofia/proveedores.ts)
+  SOFIA_MODO = "simulado"
