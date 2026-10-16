@@ -1,4 +1,6 @@
+import type { ReactNode } from "react";
 import RobotLogo from "./RobotLogo";
+import Comparador from "./Comparador";
 
 export function Problema() {
   return (
@@ -6,52 +8,15 @@ export function Problema() {
       <div className="wrap">
         <div className="head">
           <div className="eyebrow">El problema</div>
-          <h2>Los datos de tu empresa existen. Están repartidos en muchos lugares.</h2>
+          <h2>Los datos existen. Las respuestas, no.</h2>
           <p className="lede">
             La diferencia entre lo planificado y lo ejecutado aparece en los costos, en las horas extra y en los atrasos,
-            pero rara vez se sabe por qué pasó. Cruzar el ERP con las planillas y los registros manuales toma horas, y la
-            decisión termina dependiendo de la experiencia de una persona.
+            pero rara vez se sabe por qué pasó. Responderlo hoy significa cruzar el ERP con planillas y registros manuales.
+            Desliza para ver la diferencia.
           </p>
         </div>
 
-        <div className="flow">
-          <div className="sources">
-            {[
-              ["ERP", "Órdenes, presupuestos, compras", "valores planificados"],
-              ["Excel", "Planillas de cada área", "control_semanal.xlsx"],
-              ["Registros manuales", "Partes de turno, bitácoras", "horas, incidencias"],
-              ["Bodega y terreno", "Salidas, despachos, avances", "valores reales"],
-            ].map(([t, d, m]) => (
-              <div className="src" key={t}>
-                <b>{t}</b>
-                <span>{d}</span>
-                <span className="mono">{m}</span>
-              </div>
-            ))}
-          </div>
-          <div className="funnel">
-            <span>integra y compara</span>
-            <div className="arrow" />
-            <div className="core">
-              sof<span style={{ color: "var(--accent-on-ink)" }}>IA</span>
-            </div>
-            <div className="arrow" />
-            <span>explica</span>
-          </div>
-          <div className="outs">
-            <div className="out">
-              <span className="mono">¿Qué se desvió más esta semana?</span>La OT-2611: +40 % en tiempo y +20 % en material.
-            </div>
-            <div className="out">
-              <span className="mono">¿Cuánto perdimos y dónde?</span>43,7 kg de material sobre lo planificado, casi todo en
-              dos órdenes.
-            </div>
-            <div className="out">
-              <span className="mono">¿Qué revisar primero?</span>La preparación del corte en soldadura. El supervisor lo
-              valida.
-            </div>
-          </div>
-        </div>
+        <Comparador />
 
         <div className="pain">
           <div>
@@ -72,70 +37,39 @@ export function Problema() {
   );
 }
 
-const PASOS = [
-  {
-    n: "01",
-    quien: ["log", "Usuario"],
-    titulo: "Pregunta en lenguaje natural",
-    texto: "Cualquier persona escribe como habla, sin fórmulas ni filtros.",
-    codigo: `"¿por qué la 2611\n se pasó en material?"`,
-  },
-  {
-    n: "02",
-    quien: ["sem", "Modelo semántico"],
-    titulo: "Traduce a conceptos del negocio",
-    texto: "Reconoce la orden, la métrica y la intención, y las mapea a las tablas reales.",
-    codigo: `intención: explicar\nentidad:   OT-2611\nmétrica:   desv_material\ncompara:   estimado / real`,
-  },
-  {
-    n: "03",
-    quien: ["log", "Motor lógico"],
-    titulo: "Calcula y aplica reglas",
-    texto: "Consulta la base de datos, calcula desviaciones y KPIs, y marca lo que supera el umbral.",
-    codigo: `SELECT mat_est, mat_real,\n  (mat_real-mat_est)\n   /mat_est AS desv\nFROM ordenes_trabajo\nWHERE ot = 'OT-2611';\n-- desv = +20 %  ▲ crítico`,
-  },
-  {
-    n: "04",
-    quien: ["ia", "IA generativa"],
-    titulo: "Explica y recomienda",
-    texto: "Redacta la respuesta con las cifras del motor, propone causas probables y qué revisar.",
-    codigo: `"Se usaron 20 kg más\n (+20 %). Hubo 1 reproceso;\n revisar preparación de\n corte."`,
-  },
-];
-
-export function ComoFunciona() {
-  return (
-    <section className="band" id="como-funciona">
-      <div className="wrap">
-        <div className="head">
-          <div className="eyebrow">Cómo funciona</div>
-          <h2>De una pregunta en español a una respuesta con respaldo.</h2>
-          <p className="lede">
-            Cada componente hace una sola cosa. El cálculo nunca lo hace la IA: lo hace el motor lógico con reglas que se
-            pueden auditar. La IA solo explica lo que el motor ya calculó.
-          </p>
-        </div>
-        <div className="pipe">
-          {PASOS.map((p) => (
-            <div className="stage" key={p.n}>
-              <span className="n">{p.n}</span>
-              <span className={`who ${p.quien[0]}`}>{p.quien[1]}</span>
-              <h3>{p.titulo}</h3>
-              <p>{p.texto}</p>
-              <pre>{p.codigo}</pre>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+const ICONOS: Record<string, ReactNode> = {
+  engranaje: (
+    <>
+      <circle cx="12" cy="12" r="3.2" />
+      <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" />
+    </>
+  ),
+  edificio: (
+    <>
+      <path d="M4 21V8l6-4v17M10 21V10l10 3v8M2 21h20" />
+      <path d="M13.5 15h3M13.5 18h3M6.5 11h1M6.5 14h1M6.5 17h1" />
+    </>
+  ),
+  camion: (
+    <>
+      <path d="M2 6h11v10H2zM13 10h4.5l3.5 3.5V16h-8" />
+      <circle cx="6" cy="17.5" r="1.8" />
+      <circle cx="17" cy="17.5" r="1.8" />
+    </>
+  ),
+  tienda: (
+    <>
+      <path d="M3 9l1.8-5h14.4L21 9M3 9h18M3 9c0 1.7 1.3 3 3 3s3-1.3 3-3c0 1.7 1.3 3 3 3s3-1.3 3-3c0 1.7 1.3 3 3 3s3-1.3 3-3" />
+      <path d="M5 12v9h14v-9M10 21v-5h4v5" />
+    </>
+  ),
+};
 
 const RUBROS = [
-  { estado: "Caso de uso del proyecto", nombre: "Metalmecánica", ent: "orden de trabajo · kg · horas hombre", ej: "¿Por qué la OT-2611 se pasó en material?", destacado: true },
-  { estado: "Configurable", nombre: "Construcción", ent: "partida · m³ · avance %", ej: "¿Qué partida se pasó del presupuesto este mes?" },
-  { estado: "Configurable", nombre: "Logística y distribución", ent: "ruta · despacho · km", ej: "¿Qué ruta tuvo más atrasos esta semana?" },
-  { estado: "Configurable", nombre: "Comercio y servicios", ent: "producto · venta · margen", ej: "¿Qué producto dejó menos margen en septiembre?" },
+  { estado: "Caso de uso del proyecto", nombre: "Metalmecánica", icono: "engranaje", ent: "orden de trabajo · kg · horas hombre", ej: "¿Por qué la OT-2611 se pasó en material?", destacado: true },
+  { estado: "Configurable", nombre: "Construcción", icono: "edificio", ent: "partida · m³ · avance %", ej: "¿Qué partida se pasó del presupuesto este mes?" },
+  { estado: "Configurable", nombre: "Logística y distribución", icono: "camion", ent: "ruta · despacho · km", ej: "¿Qué ruta tuvo más atrasos esta semana?" },
+  { estado: "Configurable", nombre: "Comercio y servicios", icono: "tienda", ent: "producto · venta · margen", ej: "¿Qué producto dejó menos margen en septiembre?" },
 ];
 
 export function Rubros() {
@@ -151,49 +85,107 @@ export function Rubros() {
           </p>
         </div>
         <div className="rubros">
-          {RUBROS.map((r) => (
-            <article className={`rubro${r.destacado ? " destacado" : ""}`} key={r.nombre}>
-              <span className="estado">{r.estado}</span>
-              <h3>{r.nombre}</h3>
-              <p className="ent mono">{r.ent}</p>
-              <p className="ej">{r.ej}</p>
-            </article>
-          ))}
+          {RUBROS.map((r) => {
+            const contenido = (
+              <>
+                <div className="rubro-top">
+                  <span className="rubro-icono" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      {ICONOS[r.icono]}
+                    </svg>
+                  </span>
+                  <span className="estado">{r.estado}</span>
+                </div>
+                <h3>{r.nombre}</h3>
+                <p className="ent mono">{r.ent}</p>
+                <p className="ej">{r.ej}</p>
+                <span className="rubro-cta">{r.destacado ? "Probar en la demo →" : "Se configura con su vocabulario"}</span>
+              </>
+            );
+            return r.destacado ? (
+              <a href="#interfaz" className="rubro destacado" key={r.nombre}>
+                {contenido}
+              </a>
+            ) : (
+              <article className="rubro" key={r.nombre}>
+                {contenido}
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-export function RolIA() {
+const PRINCIPIOS: { titulo: string; texto: string; prueba: ReactNode }[] = [
+  {
+    titulo: "Cada número se puede repetir a mano",
+    texto: "Las fórmulas son fijas y están a la vista. Si sofIA dice +20 %, cualquiera puede comprobarlo con una calculadora.",
+    prueba: (
+      <div className="pf-formula">
+        <span>(120 − 100) ÷ 100 × 100</span>
+        <b>= +20 %</b>
+      </div>
+    ),
+  },
+  {
+    titulo: "La IA no calcula. Solo explica",
+    texto: "El motor lógico produce las cifras. La IA generativa recibe esas cifras y las redacta; no tiene permiso para cambiarlas.",
+    prueba: (
+      <div className="pf-carriles">
+        <div>
+          <span className="who log">Motor lógico</span>
+          <code>20 kg · +20 %</code>
+        </div>
+        <div>
+          <span className="who ia">IA generativa</span>
+          <code>“Se usaron 20 kg más…”</code>
+        </div>
+      </div>
+    ),
+  },
+  {
+    titulo: "Las causas son hipótesis",
+    texto: "sofIA propone qué revisar a partir del proceso y los reprocesos registrados. La conclusión la valida tu equipo.",
+    prueba: (
+      <div className="pf-frases">
+        <p className="no">La causa es un error del operario.</p>
+        <p className="si">Lo más probable es un error en el corte. Conviene revisarlo.</p>
+      </div>
+    ),
+  },
+  {
+    titulo: "No juzga personas ni inventa datos",
+    texto: "Si un resultado depende de una sola orden, lo advierte. Si no entiende la pregunta, lo dice en vez de adivinar.",
+    prueba: (
+      <div className="pf-frases">
+        <p className="si">J. Rojas queda en 81,1 %, pero el resultado depende de la OT-2611. Revisa esa orden antes de concluir.</p>
+      </div>
+    ),
+  },
+];
+
+export function Confianza() {
   return (
-    <section className="band" id="rol-ia">
+    <section className="band" id="confianza">
       <div className="wrap">
         <div className="head">
-          <div className="eyebrow">Rol de la IA</div>
-          <h2>La IA explica. Las decisiones siguen siendo de tu equipo.</h2>
+          <div className="eyebrow"><span>Por qué confiar en <span className="marca">sofIA</span></span></div>
+          <h2>Una IA que muestra su trabajo.</h2>
+          <p className="lede">
+            En un taller, una cifra equivocada cuesta material y horas. Por eso sofIA está construida para que cada respuesta
+            se pueda revisar.
+          </p>
         </div>
-        <div className="roles">
-          <div className="role si">
-            <h3>Lo que sí hace</h3>
-            <ul>
-              <li>Explica desviaciones con las cifras que calculó el motor.</li>
-              <li>Propone hipótesis de causa a partir de proceso, operario y reprocesos.</li>
-              <li>Traduce datos técnicos a lenguaje simple.</li>
-              <li>Responde preguntas escritas como se hablan en el trabajo.</li>
-            </ul>
-            <p className="foot">Cada respuesta muestra de dónde salió cada número.</p>
-          </div>
-          <div className="role no">
-            <h3>Lo que no hace</h3>
-            <ul>
-              <li>Calcular consumos ni tiempos. Eso lo hace el motor lógico.</li>
-              <li>Reemplazar la planificación.</li>
-              <li>Tomar decisiones críticas del negocio.</li>
-              <li>Dar por cierta una causa sin validación del supervisor.</li>
-            </ul>
-            <p className="foot">Las causas se presentan como hipótesis a validar.</p>
-          </div>
+        <div className="confianza">
+          {PRINCIPIOS.map((p) => (
+            <article className="confianza-card" key={p.titulo}>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+              <div className="pf">{p.prueba}</div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -302,6 +294,9 @@ export function Equipo() {
           <div className="feria">
             <span className="mono">Feria de proyectos · noviembre 2026</span>
             <b>Ven a nuestro stand y hazle una pregunta a sofIA en vivo.</b>
+            <a href="/feria" className="feria-link">
+              Abrir el modo feria →
+            </a>
           </div>
         </div>
         <div className="team">
@@ -325,7 +320,11 @@ export function Footer() {
         <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
           <RobotLogo size={18} /> sofIA · Asistente de datos con IA para MiPymes
         </span>
-        <span>Gealytics · Antofagasta, Chile · 2026</span>
+        <span style={{ display: "inline-flex", gap: 16, flexWrap: "wrap" }}>
+          <a href="/feria">Modo feria</a>
+          <a href="https://github.com/all-f0-ru/sofIA-web">Código en GitHub</a>
+          <span>Gealytics · Antofagasta, Chile · 2026</span>
+        </span>
       </div>
     </footer>
   );

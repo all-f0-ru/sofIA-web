@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Cota from "../Cota";
 import RobotLogo from "../RobotLogo";
+import { TextoRico } from "../Semantica";
 import { ORDENES, PERIODO_LARGO } from "@/lib/sofia/datos";
 import { ETIQUETA_NIVEL, estadoOrden } from "@/lib/sofia/motor";
 import { responderSimulado } from "@/lib/sofia/responder";
@@ -37,16 +38,6 @@ async function pedirRespuesta(pregunta: string): Promise<RespuestaSofia> {
   } catch {
     return responderSimulado(pregunta);
   }
-}
-
-/** Convierte **texto** en <strong>. */
-function TextoRico({ texto }: { texto: string }) {
-  const partes = texto.split(/\*\*(.+?)\*\*/g);
-  return (
-    <p>
-      {partes.map((p, i) => (i % 2 === 1 ? <strong key={i}>{p}</strong> : <span key={i}>{p}</span>))}
-    </p>
-  );
 }
 
 function VistaBloque({ bloque }: { bloque: Bloque }) {
@@ -160,6 +151,17 @@ export default function DemoApp() {
     if (el) el.scrollTop = el.scrollHeight;
   }, [mensajes]);
 
+  // La portada y "Cómo piensa" pueden pedirle a la demo que responda una pregunta.
+  const preguntarRef = useRef<(q: string) => Promise<void>>(async () => {});
+  useEffect(() => {
+    const alPedir = (e: Event) => {
+      const q = (e as CustomEvent<string>).detail;
+      if (typeof q === "string" && q.trim()) void preguntarRef.current(q);
+    };
+    window.addEventListener("sofia:preguntar", alPedir);
+    return () => window.removeEventListener("sofia:preguntar", alPedir);
+  }, []);
+
   async function preguntar(pregunta: string) {
     if (ocupado) return;
     const q = pregunta.trim();
@@ -184,6 +186,8 @@ export default function DemoApp() {
     setMensajes((m) => m.map((x) => (x.id === id ? { ...x, respuesta } : x)));
     setOcupado(false);
   }
+
+  preguntarRef.current = preguntar;
 
   function alEnviar(e: FormEvent) {
     e.preventDefault();

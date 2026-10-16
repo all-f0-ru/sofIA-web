@@ -75,7 +75,7 @@ function porOrden(o: OrdenTrabajo): Redaccion {
     const causa = CAUSAS_POR_PROCESO[o.proceso] ?? "una diferencia entre lo planificado y la ejecución";
     texto +=
       o.reprocesos > 0
-        ? ` Hubo ${o.reprocesos} ${o.reprocesos === 1 ? "reproceso" : "reprocesos"} en ${o.proceso}, así que lo más probable es ${causa}. Recomiendo revisar esa etapa con ${o.operario} antes de la próxima orden similar.`
+        ? ` Hubo ${o.reprocesos} ${o.reprocesos === 1 ? "reproceso" : "reprocesos"} en ${o.proceso.charAt(0).toLowerCase()}${o.proceso.slice(1)}, así que lo más probable es ${causa}. Recomiendo revisar esa etapa con ${o.operario} antes de la próxima orden similar.`
         : ` No hubo reprocesos registrados; la causa más probable es ${causa}.`;
   }
   return {

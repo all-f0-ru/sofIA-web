@@ -1,25 +1,19 @@
 import Nav from "@/components/Nav";
-import Hero from "@/components/Hero";
+import HeroInteractivo from "@/components/HeroInteractivo";
+import ComoPiensa from "@/components/ComoPiensa";
 import DemoApp from "@/components/demo/DemoApp";
-import {
-  ComoFunciona,
-  Equipo,
-  Footer,
-  Indicadores,
-  Metodologia,
-  Problema,
-  RolIA,
-  Rubros,
-} from "@/components/Secciones";
+import Efectos from "@/components/Efectos";
+import { Confianza, Equipo, Footer, Indicadores, Metodologia, Problema, Rubros } from "@/components/Secciones";
 
 export default function Inicio() {
   return (
     <>
       <Nav />
       <main id="contenido">
-        <Hero />
+        <HeroInteractivo />
         <Problema />
-        <ComoFunciona />
+        <ComoPiensa />
+        <Confianza />
         <Rubros />
         <section className="band alt" id="interfaz">
           <div className="wrap">
@@ -35,12 +29,12 @@ export default function Inicio() {
             <DemoApp />
           </div>
         </section>
-        <RolIA />
         <Indicadores />
         <Metodologia />
         <Equipo />
       </main>
       <Footer />
+      <Efectos />
     </>
   );
 }

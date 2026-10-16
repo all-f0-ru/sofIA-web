@@ -1,0 +1,237 @@
+/* ================================================================
+   Interacciones y personalidad de sofIA
+   Movimiento con intención: rápido, preciso, como una herramienta.
+   Todo se apaga con prefers-reduced-motion.
+   ================================================================ */
+
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --sombra-flotante: 0 18px 40px -18px rgba(20, 30, 70, 0.35);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --sombra-flotante: 0 18px 40px -16px rgba(0, 0, 0, 0.7); }
+}
+:root[data-theme="dark"] { --sombra-flotante: 0 18px 40px -16px rgba(0, 0, 0, 0.7); }
+
+/* ---------- Robot: pestañea y la antena rebota ---------- */
+.robot .robot-ojo,
+.robot .robot-antena,
+.robot .robot-sonrisa {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.robot .robot-ojo { animation: pestaneo 5.5s infinite; }
+@keyframes pestaneo {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.12); }
+}
+.brand:hover .robot .robot-antena,
+.msg-a .robot .robot-antena { animation: antena 0.9s var(--ease-spring); }
+@keyframes antena {
+  0% { transform: translateY(0); }
+  35% { transform: translateY(-2px) scale(1.25); }
+  70% { transform: translateY(0.5px) scale(0.95); }
+  100% { transform: translateY(0) scale(1); }
+}
+.brand:hover .robot .robot-sonrisa { animation: sonrisa 0.5s var(--ease-spring); }
+@keyframes sonrisa {
+  50% { transform: scaleX(1.18) translateY(0.4px); }
+}
+.brand .robot { transition: transform 0.4s var(--ease-spring); }
+.brand:hover .robot { transform: rotate(-8deg); }
+
+/* ---------- Menú: subrayado que crece ---------- */
+.nav ul a {
+  background: linear-gradient(var(--accent), var(--accent)) left bottom / 0 2px no-repeat;
+  padding-bottom: 3px;
+  transition: background-size 0.3s var(--ease-out), color 0.2s;
+}
+.nav ul a:hover { background-size: 100% 2px; }
+
+/* ---------- Botones ---------- */
+.btn {
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), filter 0.2s, border-color 0.2s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -10px var(--accent); }
+.btn:active { transform: translateY(0) scale(0.98); box-shadow: none; }
+.btn.ghost:hover { box-shadow: 0 10px 22px -14px var(--ink); }
+.theme-btn { transition: transform 0.35s var(--ease-spring), border-color 0.2s; }
+.theme-btn:hover { transform: rotate(25deg); }
+
+/* ---------- Portada: luz que sigue al cursor + cotas que se llenan ---------- */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%);
+}
+.hero.con-luz::after { opacity: 1; }
+.hero .wrap { z-index: 1; }
+.hero h1 em { display: inline-block; transition: transform 0.35s var(--ease-spring); }
+.hero h1:hover em { transform: translateY(-3px) rotate(-1.5deg); }
+
+.ficha { transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out); }
+.ficha:hover { transform: translateY(-6px); box-shadow: 0 40px 70px -30px rgba(10, 20, 60, 0.45); }
+
+.cota-real { transform-origin: left center; animation: llenar 1.1s var(--ease-out) both; animation-delay: 0.25s; }
+@keyframes llenar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.ficha .q { animation: aparecer-burbuja 0.6s var(--ease-spring) both; }
+.ficha .a { animation: aparecer-burbuja 0.6s var(--ease-spring) 0.9s both; }
+@keyframes aparecer-burbuja { from { opacity: 0; transform: translateY(8px) scale(0.97); } }
+
+/* ---------- El problema: fuentes y salidas ---------- */
+.src {
+  transition: transform 0.25s var(--ease-out), border-color 0.25s, background 0.25s;
+}
+.src:hover { transform: translateY(-3px); border-style: solid; border-color: var(--accent); background: var(--accent-soft); }
+.out { transition: transform 0.25s var(--ease-out), box-shadow 0.25s; }
+.out:hover { transform: translateX(6px); box-shadow: var(--sombra-flotante); }
+.funnel .core { transition: transform 0.4s var(--ease-spring); }
+.flow:hover .funnel .core { transform: scale(1.08); }
+.arrow { background-size: 100% 200%; animation: flujo 1.8s linear infinite; background-image: linear-gradient(var(--line), var(--accent), var(--line)); }
+@keyframes flujo { from { background-position: 0 100%; } to { background-position: 0 -100%; } }
+.pain > div { transition: border-color 0.25s; }
+.pain > div:hover { border-color: var(--accent); }
+
+/* ---------- Cómo funciona: cada paso se ilumina ---------- */
+.stage {
+  position: relative;
+  transition: background 0.3s var(--ease-out);
+}
+.stage::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out);
+}
+.stage:hover { background: color-mix(in srgb, var(--accent-soft) 45%, var(--surface)); }
+.stage:hover::before { transform: scaleX(1); }
+.stage .n { display: inline-block; transition: transform 0.35s var(--ease-spring); }
+.stage:hover .n { transform: scale(1.5) translateX(4px); }
+.stage pre { transition: border-color 0.3s, transform 0.3s var(--ease-out); }
+.stage:hover pre { border-color: var(--accent); transform: translateY(-2px); }
+
+/* ---------- Rubros: zoom, inclinación 3D y brillo ---------- */
+.rubros { perspective: 1000px; }
+.rubro {
+  position: relative;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(0) scale(1);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), border-color 0.3s, opacity 0.3s;
+  will-change: transform;
+}
+.rubro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background: radial-gradient(260px circle at var(--gx, 50%) var(--gy, 0%), color-mix(in srgb, var(--accent) 14%, transparent), transparent 65%);
+}
+.rubro:hover {
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-8px) scale(1.045);
+  box-shadow: var(--sombra-flotante);
+  border-color: var(--accent);
+  z-index: 2;
+}
+.rubro:hover::after { opacity: 1; }
+.rubros:hover .rubro:not(:hover) { opacity: 0.72; }
+
+.rubro-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.rubro-icono {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r);
+  background: var(--sunk);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  transition: transform 0.45s var(--ease-spring), background 0.3s, color 0.3s, border-color 0.3s;
+}
+.rubro.destacado .rubro-icono { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.rubro:hover .rubro-icono { transform: rotate(-10deg) scale(1.15); background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.rubro .estado { text-align: right; }
+.rubro .ej { transition: transform 0.35s var(--ease-out), background 0.3s, border-color 0.3s; transform-origin: left bottom; }
+.rubro:hover .ej { transform: translateX(2px); background: var(--accent-soft); border-color: transparent; }
+.rubro-cta {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--muted);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s, transform 0.35s var(--ease-out);
+}
+.rubro.destacado .rubro-cta { color: var(--accent); font-weight: 600; }
+.rubro:hover .rubro-cta,
+.rubro:focus-visible .rubro-cta { opacity: 1; transform: none; }
+@media (hover: none) { .rubro-cta { opacity: 1; transform: none; } }
+
+/* ---------- Demo: pequeños detalles ---------- */
+.app { transition: box-shadow 0.4s var(--ease-out); }
+.app:hover { box-shadow: 0 50px 90px -40px rgba(10, 20, 60, 0.5); }
+.sugg button { transition: transform 0.2s var(--ease-out), border-color 0.2s, color 0.2s, background 0.2s; }
+.sugg button:hover { transform: translateY(-2px); background: var(--accent-soft); }
+.ot { transition: background 0.2s, border-color 0.2s, transform 0.2s var(--ease-out); }
+.ot:hover { transform: translateX(3px); }
+.istep:not(.pending) { animation: paso 0.45s var(--ease-out); }
+@keyframes paso { from { opacity: 0.3; transform: translateY(4px); } }
+
+/* ---------- Rol de la IA, KPIs, metodología, equipo ---------- */
+.role { transition: transform 0.3s var(--ease-out), box-shadow 0.3s, border-color 0.3s; }
+.role:hover { transform: translateY(-4px); box-shadow: var(--sombra-flotante); }
+.role.si:hover { border-color: var(--ok); }
+.role.no:hover { border-color: var(--crit); }
+.role li { transition: transform 0.25s var(--ease-out); }
+.role li:hover { transform: translateX(4px); }
+
+.kpi tbody tr { transition: background 0.2s; }
+.kpi tbody tr:hover { background: var(--accent-soft); }
+.kpi tbody tr:hover code { background: var(--surface); }
+
+.steps li { transition: transform 0.3s var(--ease-out); }
+.steps li::before { transition: letter-spacing 0.3s var(--ease-out), border-color 0.3s; }
+.steps li:hover { transform: translateY(-4px); }
+.steps li:hover::before { letter-spacing: 0.3em; }
+
+.mem { transition: transform 0.3s var(--ease-out), border-color 0.3s, box-shadow 0.3s; }
+.mem:hover { transform: translateX(-6px); border-color: var(--accent); box-shadow: var(--sombra-flotante); }
+.av { transition: transform 0.4s var(--ease-spring), background 0.3s, color 0.3s; }
+.mem:hover .av { transform: rotate(-12deg) scale(1.1); background: var(--accent); color: var(--accent-ink); }
+.feria { transition: transform 0.35s var(--ease-spring); }
+.feria:hover { transform: scale(1.02) rotate(-0.4deg); }
+
+/* ---------- Aparición al hacer scroll (la clase la pone Efectos.tsx) ---------- */
+.rv {
+  opacity: 0;
+  translate: 0 22px;
+  transition: opacity 0.7s var(--ease-out), translate 0.7s var(--ease-out);
+  transition-delay: var(--rv-delay, 0ms);
+}
+.rv.rv-in { opacity: 1; translate: 0 0; }
+
+/* ---------- Accesibilidad: sin movimiento si el usuario lo pide ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .robot .robot-ojo,
+  .arrow,
+  .cota-real,
+  .ficha .q,
+  .ficha .a,
+  .istep:not(.pending) { animation: none !important; }
+  .rubro,
+  .rubro:hover { transform: none !important; }
+  .rv { opacity: 1 !important; translate: none !important; }
+}

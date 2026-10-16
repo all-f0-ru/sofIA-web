@@ -22,7 +22,7 @@ function normalizar(texto: string): string {
   return texto
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "");
+    .replace(/[\u0300-\u036f]/g, "");
 }
 
 /** Diccionario de sinónimos → métrica. El orden importa: gana la primera coincidencia. */
@@ -102,3 +102,75 @@ FROM v_kpi_ot WHERE semana = 42;`;
       return "-- No se generó consulta: el modelo\n-- semántico no reconoció una métrica\n-- ni una orden en la pregunta.";
   }
 }
+
+/* ------------------------------------------------------------------
+   Resaltado: marca qué partes de la pregunta reconoció el modelo.
+   Se usa en la portada y en "Cómo piensa sofIA".
+   ------------------------------------------------------------------ */
+
+export type TipoToken = "entidad" | "metrica" | "intencion" | "periodo";
+
+export interface Segmento {
+  texto: string;
+  tipo?: TipoToken;
+}
+
+const PATRONES_RESALTADO: { tipo: TipoToken; patron: RegExp }[] = [
+  { tipo: "entidad", patron: /\b(?:ot[\s-]*)?26\d\d\b|\bordenes?\b|\boperari[oa]s?\b|\bpartidas?\b|\brutas?\b|\bproductos?\b/g },
+  { tipo: "periodo", patron: /\besta semana\b|\bla semana\b|\beste mes\b|\bhoy\b|\bsemana\b/g },
+  {
+    tipo: "metrica",
+    patron:
+      /\bmaterial(?:es)?\b|\bmermas?\b|\bkg\b|\bkilos?\b|\btiempos?\b|\bhoras?\b|\batras\w*|\bdemor\w*|\bproductividad\b|\bdesperdici\w*|\bsobreconsum\w*|\bmargen\b|\bpresupuesto\b/g,
+  },
+  { tipo: "intencion", patron: /\bpor que\b|\bcuant[oa]s?\b|\bcuales?\b|\bresumen\b|\bmejor\b|\bpeor\b|\bmas\b|\bcomo va\b|\bse paso\b|\bse perdio\b/g },
+];
+
+/** Divide la pregunta en segmentos y marca los que el modelo semántico reconoce. */
+export function resaltar(pregunta: string): Segmento[] {
+  // Normaliza carácter por carácter para que los índices coincidan con el texto original.
+  const normal = Array.from(pregunta)
+    .map((c) => {
+      const n = c.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      return n.length === 1 ? n : c.toLowerCase().charAt(0);
+    })
+    .join("");
+  const marcas: { ini: number; fin: number; tipo: TipoToken }[] = [];
+  for (const { tipo, patron } of PATRONES_RESALTADO) {
+    patron.lastIndex = 0;
+    let m: RegExpExecArray | null;
+    while ((m = patron.exec(normal))) {
+      const ini = m.index;
+      const fin = ini + m[0].length;
+      if (!marcas.some((x) => ini < x.fin && fin > x.ini)) marcas.push({ ini, fin, tipo });
+    }
+  }
+  marcas.sort((a, b) => a.ini - b.ini);
+  const original = Array.from(pregunta);
+  const segmentos: Segmento[] = [];
+  let cursor = 0;
+  for (const mk of marcas) {
+    if (mk.ini > cursor) segmentos.push({ texto: original.slice(cursor, mk.ini).join("") });
+    segmentos.push({ texto: original.slice(mk.ini, mk.fin).join(""), tipo: mk.tipo });
+    cursor = mk.fin;
+  }
+  if (cursor < original.length) segmentos.push({ texto: original.slice(cursor).join("") });
+  return segmentos;
+}
+
+export const ETIQUETA_TOKEN: Record<TipoToken, string> = {
+  entidad: "entidad",
+  metrica: "métrica",
+  intencion: "intención",
+  periodo: "periodo",
+};
+
+/** Preguntas de ejemplo que se escriben solas en la portada y en el modo feria. */
+export const EJEMPLOS = [
+  "¿Por qué la OT-2611 se pasó en material?",
+  "¿Qué órdenes se atrasaron más esta semana?",
+  "¿Cuánto material se perdió en mermas?",
+  "¿Qué operario tiene mejor productividad?",
+  "¿Cómo va la OT-2615?",
+  "Dame un resumen de la semana",
+];
