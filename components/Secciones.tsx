@@ -273,9 +273,9 @@ export function Metodologia() {
 }
 
 const EQUIPO = [
-  ["D1", "Gestora de diseño y desarrollo", "desarrollador1@gealytics.cl"],
-  ["D2", "Gestor de infraestructura y desarrollo", "desarrollador2@gealytics.cl"],
-  ["WS", "Wilfredo Soler Jaldin · Gestor de negocios y proyectos", "wilfredo.soler.j@gealytics.cl"],
+  ["D1", "Gestora de diseño y desarrollo", "boericarla@gmail.com"],
+  ["D2", "Gestor de infraestructura y desarrollo", "pintoloayzamayerly@gmail.com"],
+  ["WS", "Wilfredo Soler Jaldin · Gestor de negocios y proyectos", "contacto@gealytics.cl"],
 ];
 
 export function Equipo() {
