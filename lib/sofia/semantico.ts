@@ -174,3 +174,27 @@ export const EJEMPLOS = [
   "¿Cómo va la OT-2615?",
   "Dame un resumen de la semana",
 ];
+
+/* ------------------------------------------------------------------
+   Explicación no técnica de la traducción (para la cara principal).
+   ------------------------------------------------------------------ */
+const METRICA_HUMANA: Record<string, string> = {
+  "desv_material, desv_tiempo": "materiales y tiempos",
+  desv_tiempo: "tiempos",
+  sobreconsumo_kg: "material de más",
+  productividad: "productividad",
+  "estado, reprocesos, eficiencia": "estado, reprocesos y eficiencia",
+};
+
+export function traducirHumano(i: Interpretacion): string {
+  if (i.intencion === "desconocida")
+    return "No logré reconocer una orden ni un dato a medir en tu pregunta, así que no traduje nada.";
+  const met = METRICA_HUMANA[i.metrica] ?? i.metrica;
+  const cap = met.charAt(0).toUpperCase() + met.slice(1);
+  const ent = i.entidad.startsWith("OT-")
+    ? `la orden ${i.entidad}`
+    : i.entidad === "operarios"
+      ? "los operarios"
+      : "todas las órdenes de trabajo";
+  return `Tradujo la pregunta a las variables internas de tu sistema (${cap} de ${ent}${i.periodo ? `, ${i.periodo}` : ""}).`;
+}

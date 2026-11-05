@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import RobotLogo from "./RobotLogo";
+import Carta from "./Carta";
 import { ChipsInterpretacion, PreguntaResaltada } from "./Semantica";
-import { EJEMPLOS } from "@/lib/sofia/semantico";
+import { EJEMPLOS, traducirHumano } from "@/lib/sofia/semantico";
 import { responderSimulado } from "@/lib/sofia/responder";
 
 const MS_TECLA = 38;
@@ -153,18 +154,28 @@ export default function HeroInteractivo() {
               {analisis && entendio && <ChipsInterpretacion i={analisis.interpretacion} />}
               {analisis && !entendio && (
                 <p className="panel-vacio">
-                  Todavía no reconoce una orden ni una métrica. Prueba con “material”, “atrasos”, “operario” o “OT-2615”.
+                  Todavía no reconoce una orden ni un dato a medir. Prueba con “material”, “atrasos”, “operario” o “OT-2615”.
                 </p>
               )}
             </section>
             <section className="consola-panel">
               <h3 className="panel-lbl">
-                <span>2</span> La consulta que generó
+                <span>2</span> Lo que tradujo a tus datos
               </h3>
-              <pre className="consola-sql">
-                {sql.slice(0, sqlVisible)}
-                {sqlVisible < sql.length && <span className="cursor" aria-hidden="true" />}
-              </pre>
+              {analisis ? (
+                <Carta
+                  etiquetaFrente="Ver código técnico (SQL)"
+                  frente={<p>{traducirHumano(analisis.interpretacion)}</p>}
+                  atras={
+                    <pre className="consola-sql">
+                      {sql.slice(0, sqlVisible)}
+                      {sqlVisible < sql.length && <span className="cursor" aria-hidden="true" />}
+                    </pre>
+                  }
+                />
+              ) : (
+                <p className="panel-vacio">Escribe una pregunta…</p>
+              )}
             </section>
             <section className="consola-panel">
               <h3 className="panel-lbl">

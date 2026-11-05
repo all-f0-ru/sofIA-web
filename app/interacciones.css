@@ -235,3 +235,27 @@
   .rubro:hover { transform: none !important; }
   .rv { opacity: 1 !important; translate: none !important; }
 }
+
+/* ---------- Cartas de dos caras (técnico / no técnico) ---------- */
+.carta { perspective: 1200px; display: block; }
+.carta-in { position: relative; display: grid; transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+.carta.volteada .carta-in { transform: rotateY(180deg); }
+.carta-cara {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 12px 14px; border-radius: 8px;
+  background: var(--surface); border: 1px solid var(--line);
+}
+.carta-cara.atras { transform: rotateY(180deg); background: var(--sunk); overflow: auto; }
+.carta-cara p { margin: 0; font-size: 14px; line-height: 1.5; }
+.carta-cara pre { margin: 0; white-space: pre-wrap; }
+.carta-cara code { font-family: var(--f-mono); font-size: 12.5px; white-space: normal; background: none; padding: 0; }
+.carta-btn {
+  align-self: flex-start; font: inherit; font-size: 12.5px; color: var(--accent);
+  background: transparent; border: 1px dashed var(--accent); border-radius: 999px; padding: 4px 12px; cursor: pointer;
+}
+.carta-btn:hover { background: var(--accent-soft); }
+.carta-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .carta-in { transition: none; } }

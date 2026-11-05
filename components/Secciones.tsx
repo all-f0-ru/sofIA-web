@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import RobotLogo from "./RobotLogo";
 import Comparador from "./Comparador";
+import Carta from "./Carta";
 
 export function Problema() {
   return (
@@ -80,7 +81,7 @@ export function Rubros() {
           <div className="eyebrow">Para quién</div>
           <h2>Un mismo motor, configurado para cada empresa.</h2>
           <p className="lede">
-            El modelo semántico se ajusta al vocabulario de cada negocio: sus entidades, sus métricas y sus reglas. Lo que
+            El modelo semántico se ajusta al vocabulario de cada negocio: sus tipos de orden, sus datos a medir y sus reglas. Lo que
             en un taller es una orden de trabajo, en una constructora es una partida y en una distribuidora es una ruta.
           </p>
         </div>
@@ -193,11 +194,11 @@ export function Confianza() {
 }
 
 const KPIS = [
-  ["Desviación de material", "(kg real − kg est) / kg est × 100", "Detecta mermas y sobreconsumo por orden."],
-  ["Desviación de tiempo", "(h real − h est) / h est × 100", "Mide horas no planificadas."],
-  ["Productividad por operario", "Σ h est / Σ h real", "Compara rendimiento entre operarios y procesos."],
-  ["Tasa de reprocesos", "OT con reproceso / OT totales", "Mide calidad a la primera."],
-  ["Eficiencia por orden", "100 − promedio(|desv mat|, |desv t|)", "Resume el desempeño de la OT en un número."],
+  ["Desviación de material", "Cuánto material se gastó de más o de menos frente a lo planificado.", "(kg real − kg est) / kg est × 100", "Detecta mermas y sobreconsumo por orden."],
+  ["Desviación de tiempo", "Cuántas horas se alargó o acortó la orden frente a lo estimado.", "(h real − h est) / h est × 100", "Mide horas no planificadas."],
+  ["Productividad por operario", "Qué tan cerca de lo estimado trabaja cada operario (100 % = justo lo planificado).", "Σ h est / Σ h real", "Compara rendimiento entre operarios y procesos."],
+  ["Tasa de reprocesos", "Qué parte de las órdenes tuvo que repetir alguna etapa.", "OT con reproceso / OT totales", "Mide calidad a la primera."],
+  ["Eficiencia por orden", "Un número de 0 a 100 que resume qué tan bien salió la orden. 100 significa sin desviaciones.", "100 − promedio(|desv mat|, |desv t|)", "Resume el desempeño de la OT en un número."],
 ];
 
 export function Indicadores() {
@@ -217,16 +218,16 @@ export function Indicadores() {
             <thead>
               <tr>
                 <th>Indicador</th>
-                <th>Fórmula</th>
+                <th>Qué mide</th>
                 <th>Para qué sirve</th>
               </tr>
             </thead>
             <tbody>
-              {KPIS.map(([k, f, u]) => (
+              {KPIS.map(([k, q, f, u]) => (
                 <tr key={k}>
                   <td>{k}</td>
                   <td>
-                    <code>{f}</code>
+                    <Carta etiquetaFrente="Ver fórmula" frente={<span>{q}</span>} atras={<code>{f}</code>} />
                   </td>
                   <td>{u}</td>
                 </tr>

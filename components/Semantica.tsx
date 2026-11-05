@@ -35,8 +35,8 @@ export function PreguntaResaltada({ pregunta, conLeyenda = false }: { pregunta: 
 export function ChipsInterpretacion({ i }: { i: Interpretacion }) {
   const pares = Object.entries({
     intención: i.intencion,
-    entidad: i.entidad,
-    métrica: i.metrica,
+    "De qué o quién se pregunta": i.entidad,
+    "Qué datos se van a medir": i.metrica,
     ...(i.periodo ? { periodo: i.periodo } : {}),
     ...(i.extra ?? {}),
   });

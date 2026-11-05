@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChipsInterpretacion, PreguntaResaltada, TextoRico } from "./Semantica";
 import { abrirEnDemo } from "./HeroInteractivo";
+import Carta from "./Carta";
 import { responderSimulado } from "@/lib/sofia/responder";
 
 interface Caso {
@@ -13,6 +14,8 @@ interface Caso {
   traduccion: [string, string][];
   /** Cálculo escrito a mano para comprobar el número. */
   prueba: { formula: string; resultado: string; nota: string };
+  /** Explicación no técnica del cálculo (cara principal de la carta). */
+  humano: string;
 }
 
 const CASOS: Caso[] = [
@@ -21,36 +24,39 @@ const CASOS: Caso[] = [
     titulo: "Explicar una desviación",
     pregunta: "¿Por qué la OT-2611 se pasó en material?",
     traduccion: [
-      ["“OT-2611”", "ordenes_trabajo.ot = 'OT-2611'"],
-      ["“material”", "mat_real, mat_est (kg)"],
-      ["“se pasó”", "desviación = (real − est) / est"],
-      ["“por qué”", "+ reprocesos, proceso, operario"],
+      ["“OT-2611”", "La orden de trabajo OT-2611"],
+      ["“material”", "Material gastado vs. lo planificado"],
+      ["“se pasó”", "Cuánto se alejó de lo estimado"],
+      ["“por qué”", "Revisa reprocesos, etapa y operario"],
     ],
-    prueba: { formula: "(120 − 100) ÷ 100 × 100", resultado: "+20 %", nota: "Material real 120 kg, estimado 100 kg." },
+    humano: "Compara el material y las horas reales de la orden con lo planificado, y revisa la etapa donde hubo reprocesos.",
+    prueba:{ formula: "(120 − 100) ÷ 100 × 100", resultado: "+20 %", nota: "Material real 120 kg, estimado 100 kg." },
   },
   {
     id: "ranking",
     titulo: "Encontrar los atrasos",
     pregunta: "¿Qué órdenes se atrasaron más esta semana?",
     traduccion: [
-      ["“órdenes”", "FROM ordenes_trabajo"],
-      ["“se atrasaron”", "(t_real − t_est) / t_est"],
-      ["“más”", "ORDER BY desv_t DESC LIMIT 3"],
-      ["“esta semana”", "WHERE semana = 42"],
+      ["“órdenes”", "Todas las órdenes de trabajo"],
+      ["“se atrasaron”", "Horas reales vs. horas planificadas"],
+      ["“más”", "Las 3 con mayor atraso"],
+      ["“esta semana”", "Semana 42, la actual"],
     ],
-    prueba: { formula: "(7 − 5) ÷ 5 × 100", resultado: "+40 %", nota: "OT-2611: 7 h reales contra 5 h estimadas." },
+    humano: "Calcula cuánto se alargó cada orden de la semana, las ordena de mayor a menor y muestra las 3 con más atraso.",
+    prueba:{ formula: "(7 − 5) ÷ 5 × 100", resultado: "+40 %", nota: "OT-2611: 7 h reales contra 5 h estimadas." },
   },
   {
     id: "mermas",
     titulo: "Sumar las pérdidas",
     pregunta: "¿Cuánto material se perdió en mermas?",
     traduccion: [
-      ["“cuánto”", "SUM(...)"],
-      ["“material”", "mat_real − mat_est"],
-      ["“se perdió”", "solo diferencias positivas: GREATEST(..., 0)"],
-      ["(sin periodo)", "semana actual por defecto: semana = 42"],
+      ["“cuánto”", "Total de la suma"],
+      ["“material”", "Material gastado de más en cada orden"],
+      ["“se perdió”", "Solo los excesos; lo ahorrado no se resta"],
+      ["(sin periodo)", "Semana actual por defecto"],
     ],
-    prueba: { formula: "22 + 20 + 1,1 + 0,4 + 0,2", resultado: "43,7 kg", nota: "Las cinco órdenes que usaron más material del planificado." },
+    humano: "Suma, orden por orden, solo el material que se gastó de más frente a lo planificado.",
+    prueba:{ formula: "22 + 20 + 1,1 + 0,4 + 0,2", resultado: "43,7 kg", nota: "Las cinco órdenes que usaron más material del planificado." },
   },
 ];
 
@@ -114,7 +120,7 @@ export default function ComoPiensa() {
                   <span className="flecha" aria-hidden="true">
                     →
                   </span>
-                  <code>{a}</code>
+                  <span className="a">{a}</span>
                 </li>
               ))}
             </ul>
@@ -126,7 +132,11 @@ export default function ComoPiensa() {
               <span className="who log">Motor lógico</span>
             </header>
             <h3>Lo calcula y lo prueba</h3>
-            <pre>{r.sql}</pre>
+            <Carta
+              etiquetaFrente="Ver código técnico (SQL)"
+              frente={<p>{caso.humano}</p>}
+              atras={<pre>{r.sql}</pre>}
+            />
             <button type="button" className="ver-prueba" aria-expanded={verPrueba} onClick={() => setVerPrueba((v) => !v)}>
               {verPrueba ? "Ocultar el cálculo" : "Ver de dónde salió el número"}
             </button>

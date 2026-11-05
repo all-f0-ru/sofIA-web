@@ -80,8 +80,8 @@ function VistaBloque({ bloque }: { bloque: Bloque }) {
 function Inspector({ r, paso }: { r: RespuestaSofia; paso: number }) {
   const chips = Object.entries({
     intención: r.interpretacion.intencion,
-    entidad: r.interpretacion.entidad,
-    métrica: r.interpretacion.metrica,
+    "De qué o quién se pregunta": r.interpretacion.entidad,
+    "Qué datos se van a medir": r.interpretacion.metrica,
     ...(r.interpretacion.periodo ? { periodo: r.interpretacion.periodo } : {}),
     ...(r.interpretacion.extra ?? {}),
   });
