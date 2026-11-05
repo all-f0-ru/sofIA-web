@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import RobotLogo from "./RobotLogo";
 
 const ENLACES = [
-  { href: "#problema", texto: "Problema" },
-  { href: "#como-funciona", texto: "Cómo funciona" },
+  { href: "#como-funciona", texto: "Cómo piensa" },
+  { href: "#confianza", texto: "Confianza" },
   { href: "#rubros", texto: "Rubros" },
   { href: "#interfaz", texto: "Demo" },
   { href: "#equipo", texto: "Equipo" },

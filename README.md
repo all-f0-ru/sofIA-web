@@ -39,10 +39,19 @@ app/
   page.tsx              Página de inicio: arma todas las secciones
   globals.css           Identidad visual: tokens de color (claro y oscuro), tipografía y componentes
   api/preguntar/route.ts  API de la demo: POST { pregunta } → respuesta de sofIA
+  feria/page.tsx        Modo feria: pantalla completa para el stand, con QR (/feria)
+  interacciones.css     Animaciones y efectos al pasar el cursor
+  sofia.css             Consola semántica, recorrido, comparador, confianza y modo feria
 components/
   Nav.tsx               Menú fijo y botón de modo claro/oscuro
-  Hero.tsx              Portada con el ejemplo de la OT-2611
-  Secciones.tsx         Problema, Cómo funciona, Rubros, Rol de la IA, Indicadores, Metodología, Equipo, Footer
+  HeroInteractivo.tsx   Portada: consola donde el modelo semántico analiza la pregunta en vivo
+  ComoPiensa.tsx        Recorrido de una pregunta: persona → modelo semántico → motor lógico → IA
+  Comparador.tsx        Deslizador "Sin sofIA / Con sofIA"
+  Semantica.tsx         Pregunta resaltada, chips de interpretación y texto con negritas
+  ModoFeria.tsx         Pantalla del stand con preguntas que rotan solas
+  CodigoQR.tsx          QR hacia https://sofia-gealytics.netlify.app
+  Efectos.tsx           Aparición al hacer scroll, luz en la portada e inclinación de tarjetas
+  Secciones.tsx         Problema, Confianza, Rubros, Indicadores, Metodología, Equipo, Footer
   Cota.tsx              Cota estimado vs. real (elemento propio de la marca)
   RobotLogo.tsx         Símbolo de sofIA
   demo/DemoApp.tsx      Demo interactiva: lista de OT, chat e inspector de 4 pasos
