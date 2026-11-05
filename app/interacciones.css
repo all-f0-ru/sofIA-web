@@ -269,7 +269,7 @@
 .carta-cara.atras { overflow: hidden; }
 
 /* ---------- Robot que saluda (hero) ---------- */
-.rs { display: block; margin: 0 auto 18px; width: min(100%, 260px); height: auto; overflow: visible; }
+.rs { display: block; margin: 0 auto 18px; width: min(100%, 260px); height: auto; overflow: hidden; }
 .rs-cuerpo { transform-box: view-box; animation: rs-rebote 1.8s ease-in-out infinite; }
 .rs-brazo { transform-box: view-box; transform-origin: 43px 36px; animation: rs-agita 1.1s ease-in-out infinite; }
 .rs-antena { transform-box: view-box; transform-origin: 21px 6px; animation: rs-antena 1.4s ease-in-out infinite; }
