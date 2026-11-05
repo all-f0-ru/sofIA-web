@@ -1,34 +1,48 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, type KeyboardEvent, type ReactNode } from "react";
 
-/** Carta de dos caras: la principal con lo no técnico; al girarla, el detalle técnico. */
+/**
+ * Carta de dos caras. La cara principal muestra la explicación no técnica;
+ * al hacer clic en cualquier parte de la tarjeta gira y aparece el detalle técnico.
+ */
 export default function Carta({
   frente,
   atras,
   etiquetaFrente = "Ver detalle técnico",
-  etiquetaAtras = "Volver",
+  tituloAtras = "Detalle técnico",
 }: {
   frente: ReactNode;
   atras: ReactNode;
   etiquetaFrente?: string;
-  etiquetaAtras?: string;
+  tituloAtras?: string;
 }) {
   const [volteada, setVolteada] = useState(false);
+  const girar = () => setVolteada((v) => !v);
+  const alTeclear = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      girar();
+    }
+  };
   return (
-    <div className={`carta${volteada ? " volteada" : ""}`}>
+    <div
+      className={`carta${volteada ? " volteada" : ""}`}
+      role="button"
+      tabIndex={0}
+      aria-pressed={volteada}
+      onClick={girar}
+      onKeyDown={alTeclear}
+    >
       <div className="carta-in">
         <div className="carta-cara" aria-hidden={volteada}>
-          {frente}
-          <button type="button" className="carta-btn" tabIndex={volteada ? -1 : 0} onClick={() => setVolteada(true)}>
-            {etiquetaFrente} →
-          </button>
+          <div className="carta-cuerpo">{frente}</div>
+          <span className="carta-pista">{etiquetaFrente} ↻</span>
         </div>
         <div className="carta-cara atras" aria-hidden={!volteada}>
-          {atras}
-          <button type="button" className="carta-btn" tabIndex={volteada ? 0 : -1} onClick={() => setVolteada(false)}>
-            ← {etiquetaAtras}
-          </button>
+          <span className="carta-titulo">{tituloAtras}</span>
+          <div className="carta-cuerpo">{atras}</div>
+          <span className="carta-pista">↺ Volver a la explicación</span>
         </div>
       </div>
     </div>

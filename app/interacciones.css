@@ -236,26 +236,30 @@
   .rv { opacity: 1 !important; translate: none !important; }
 }
 
-/* ---------- Cartas de dos caras (técnico / no técnico) ---------- */
-.carta { perspective: 1200px; display: block; }
-.carta-in { position: relative; display: grid; transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+/* ---------- Cartas de dos caras (no técnico / técnico) ---------- */
+.carta { perspective: 1400px; cursor: pointer; height: 100%; outline: none; }
+.carta-in { position: relative; display: grid; height: 100%; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1); }
 .carta.volteada .carta-in { transform: rotateY(180deg); }
+.carta:focus-visible .carta-cara { outline: 2px solid var(--accent); outline-offset: 3px; }
 .carta-cara {
   grid-area: 1 / 1;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  display: flex; flex-direction: column; gap: 10px;
-  padding: 12px 14px; border-radius: 8px;
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 18px 20px; border-radius: 12px;
   background: var(--surface); border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 14px 30px -18px rgba(0, 0, 0, 0.28);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-.carta-cara.atras { transform: rotateY(180deg); background: var(--sunk); overflow: auto; }
-.carta-cara p { margin: 0; font-size: 14px; line-height: 1.5; }
-.carta-cara pre { margin: 0; white-space: pre-wrap; }
-.carta-cara code { font-family: var(--f-mono); font-size: 12.5px; white-space: normal; background: none; padding: 0; }
-.carta-btn {
-  align-self: flex-start; font: inherit; font-size: 12.5px; color: var(--accent);
-  background: transparent; border: 1px dashed var(--accent); border-radius: 999px; padding: 4px 12px; cursor: pointer;
+.carta:hover .carta-cara { border-color: var(--accent); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 18px 36px -18px rgba(0, 0, 0, 0.35); }
+.carta-cara.atras { transform: rotateY(180deg); background: var(--sunk); border-top: 3px solid var(--accent); }
+.carta-cuerpo { flex: 1; min-width: 0; }
+.carta-cuerpo p, .carta-cuerpo span:not(.chip) { margin: 0; font-size: 15px; line-height: 1.55; }
+.carta-cuerpo pre { margin: 0; white-space: pre-wrap; font-family: var(--f-mono); font-size: 12.5px; line-height: 1.65; overflow-x: auto; }
+.carta-cuerpo code { font-family: var(--f-mono); font-size: 13.5px; white-space: normal; background: none; padding: 0; color: var(--accent); }
+.carta-titulo, .carta-pista {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
 }
-.carta-btn:hover { background: var(--accent-soft); }
-.carta-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.carta-pista { color: var(--accent); margin-top: auto; }
+.carta-titulo { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) { .carta-in { transition: none; } }

@@ -164,7 +164,7 @@ export default function HeroInteractivo() {
               </h3>
               {analisis ? (
                 <Carta
-                  etiquetaFrente="Ver código técnico (SQL)"
+                  etiquetaFrente="Ver código técnico"
                   frente={<p>{traducirHumano(analisis.interpretacion)}</p>}
                   atras={
                     <pre className="consola-sql">

@@ -133,7 +133,7 @@ export default function ComoPiensa() {
             </header>
             <h3>Lo calcula y lo prueba</h3>
             <Carta
-              etiquetaFrente="Ver código técnico (SQL)"
+              etiquetaFrente="Ver código técnico"
               frente={<p>{caso.humano}</p>}
               atras={<pre>{r.sql}</pre>}
             />
