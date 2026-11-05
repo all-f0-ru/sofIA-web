@@ -263,3 +263,7 @@
 .carta-pista { color: var(--accent); margin-top: auto; }
 .carta-titulo { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) { .carta-in { transition: none; } }
+
+/* El código de la cara de atrás se ajusta al ancho de la carta (sin salirse del margen). */
+.carta-cara .carta-cuerpo pre { white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; max-width: 100%; overflow-x: hidden; background: transparent; border: 0; padding: 0; }
+.carta-cara.atras { overflow: hidden; }
