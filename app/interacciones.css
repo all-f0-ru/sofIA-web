@@ -282,3 +282,10 @@
 @keyframes rs-antena { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
 @keyframes rs-datos { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
 @media (prefers-reduced-motion: reduce) { .rs * { animation: none !important; } }
+
+/* Robot asomado desde un bloque (hero) */
+.rs { overflow: hidden; }
+.rs-cabeza { transform-box: view-box; animation: rs-asoma 3.2s ease-in-out infinite; }
+.rs-brazo { transform-box: view-box; transform-origin: 44px 27px; animation: rs-saluda 1.1s ease-in-out infinite; }
+@keyframes rs-asoma { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1px); } }
+@keyframes rs-saluda { 0%, 100% { transform: rotate(-12deg); } 50% { transform: rotate(12deg); } }
