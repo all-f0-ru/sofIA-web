@@ -3,9 +3,11 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Cota from "../Cota";
 import RobotLogo from "../RobotLogo";
+import Carta from "../Carta";
 import { TextoRico } from "../Semantica";
 import { ORDENES, PERIODO_LARGO } from "@/lib/sofia/datos";
 import { ETIQUETA_NIVEL, estadoOrden } from "@/lib/sofia/motor";
+import { traducirHumano } from "@/lib/sofia/semantico";
 import { responderSimulado } from "@/lib/sofia/responder";
 import type { Bloque, RespuestaSofia } from "@/lib/sofia/tipos";
 
@@ -105,9 +107,11 @@ function Inspector({ r, paso }: { r: RespuestaSofia; paso: number }) {
       </div>
       <div className={clase(2)}>
         <div className="lbl">
-          2 · Consulta generada <span className="who sem">semántico</span>
+          2 · Lo que tradujo a tus datos <span className="who sem">semántico</span>
         </div>
-        {paso >= 2 && <pre>{r.sql}</pre>}
+        {paso >= 2 && (
+          <Carta etiquetaFrente="Ver código técnico" frente={<p>{traducirHumano(r.interpretacion)}</p>} atras={<pre>{r.sql}</pre>} />
+        )}
       </div>
       <div className={clase(3)}>
         <div className="lbl">

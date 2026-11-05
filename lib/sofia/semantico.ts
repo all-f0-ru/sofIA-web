@@ -159,8 +159,8 @@ export function resaltar(pregunta: string): Segmento[] {
 }
 
 export const ETIQUETA_TOKEN: Record<TipoToken, string> = {
-  entidad: "entidad",
-  metrica: "métrica",
+  entidad: "de qué o quién",
+  metrica: "qué datos medir",
   intencion: "intención",
   periodo: "periodo",
 };

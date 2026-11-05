@@ -51,7 +51,7 @@ function redactar(c: Consulta): Redaccion {
       return {
         calculo: [{ etiqueta: "Resultado", valor: "sin cálculo" }],
         texto:
-          "No reconocí una orden ni una métrica en tu pregunta. Puedo responder sobre una OT específica (por ejemplo **OT-2615**), desviaciones de tiempo, consumo de material, productividad por operario o un resumen de la semana.",
+          "No reconocí una orden ni un dato a medir en tu pregunta. Puedo responder sobre una OT específica (por ejemplo **OT-2615**), desviaciones de tiempo, consumo de material, productividad por operario o un resumen de la semana.",
         notaRedaccion: "Responde sin inventar datos cuando no hay cálculo.",
         bloques: [],
       };
