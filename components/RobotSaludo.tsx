@@ -1,7 +1,7 @@
 /** Robot de sofIA de cuerpo completo que saluda, animado (propuesta B). Respeta prefers-reduced-motion en el CSS. */
 export default function RobotSaludo() {
   return (
-    <svg className="rs" viewBox="0 0 60 80" width="110" height="146" role="img" aria-label="sofIA te saluda">
+    <svg className="rs" viewBox="6 0 50 40" width="260" height="208" role="img" aria-label="sofIA te saluda">
       <g className="rs-cuerpo">
         <g transform="translate(18,2)">
           <path className="rs-antena" d="M14 6V3" stroke="var(--ink)" strokeWidth="1.6" strokeLinecap="round" />
