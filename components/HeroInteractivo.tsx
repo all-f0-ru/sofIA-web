@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import RobotLogo from "./RobotLogo";
 import Carta from "./Carta";
+import RobotSaludo from "./RobotSaludo";
 import { ChipsInterpretacion, PreguntaResaltada } from "./Semantica";
 import { EJEMPLOS, traducirHumano } from "@/lib/sofia/semantico";
 import { responderSimulado } from "@/lib/sofia/responder";
@@ -94,6 +95,7 @@ export default function HeroInteractivo() {
           </h1>
         </div>
         <div>
+          <RobotSaludo />
           <p className="lede">
             sofIA traduce una pregunta escrita como la dices a una consulta exacta sobre tus datos, calcula con reglas que
             puedes auditar y te explica el resultado en simple. Mira cómo piensa: escribe abajo.
