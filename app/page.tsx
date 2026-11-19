@@ -1,7 +1,7 @@
 import Nav from "@/components/Nav";
 import HeroInteractivo from "@/components/HeroInteractivo";
 import ComoPiensa from "@/components/ComoPiensa";
-import DemoApp from "@/components/demo/DemoApp";
+import DemoConAgente from "@/components/demo/DemoConAgente";
 import Efectos from "@/components/Efectos";
 import { Confianza, Equipo, Footer, Indicadores, Metodologia, Problema, Rubros } from "@/components/Secciones";
 
@@ -26,7 +26,7 @@ export default function Inicio() {
                 escribe tu propia pregunta.
               </p>
             </div>
-            <DemoApp />
+            <DemoConAgente />
           </div>
         </section>
         <Indicadores />

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import RobotLogo from "./RobotLogo";
 
+
 const ENLACES = [
   { href: "#como-funciona", texto: "Cómo piensa" },
   { href: "#confianza", texto: "Confianza" },
