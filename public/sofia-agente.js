@@ -149,8 +149,8 @@ html[data-theme="light"] .sofia-ag{--bg:#ffffff;--panel:#f3f6f9;--borde:#d3dce5;
     <div class="sofia-ag-chips"></div>
   </div>
   <form class="sofia-ag-form">
-    <input type="file" id="sofia-file-input" accept=".xlsx,.xls,.csv,.sql" hidden />
-    <button type="button" id="sofia-btn-upload" title="Cargar Excel, CSV o SQL (Solo Admin)" style="display:none; background:none; border:none; font-size:18px; cursor:pointer; padding:0 8px;">📎</button>
+    <input type="file" id="sofia-file-input" accept=".xlsx,.csv" hidden />
+    <button type="button" id="sofia-btn-upload" title="Cargar OT desde Excel o CSV (solo administradores)" style="display:none; background:none; border:none; font-size:18px; cursor:pointer; padding:0 8px;">📎</button>
     <textarea class="sofia-ag-in" rows="1" maxlength="1000" aria-label="Escribe tu pregunta" placeholder="Escribe tu pregunta"></textarea>
     <button class="sofia-ag-send" type="submit">Preguntar</button>
   </form>
